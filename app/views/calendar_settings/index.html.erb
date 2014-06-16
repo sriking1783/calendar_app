@@ -1,0 +1,29 @@
+<h1>Listing calendar_settings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Default view</th>
+      <th>Popup time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @calendar_settings.each do |calendar_setting| %>
+      <tr>
+        <td><%= calendar_setting.default_view %></td>
+        <td><%= calendar_setting.popup_time %></td>
+        <td><%= link_to 'Show', calendar_setting %></td>
+        <td><%= link_to 'Edit', edit_calendar_setting_path(calendar_setting) %></td>
+        <td><%= link_to 'Destroy', calendar_setting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Calendar setting', new_calendar_setting_path %>

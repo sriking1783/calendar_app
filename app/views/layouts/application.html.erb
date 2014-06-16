@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript">
+  if(!window.jQuery)
+  {
+     var script = document.createElement("script");
+     script.type = "text/javascript";
+     script.async = false; // CHANGES
+     script.src = "//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js";
+     var oScripts = document.getElementsByTagName("script");
+     var s = oScripts[0];
+     s.parentNode.insertBefore(script, s);
+  }
+</script>
+  <title>Events</title>
+   <%= javascript_include_tag "jquery.js" %>
+   <%= stylesheet_link_tag    "application", :media => "all" %>
+   <%= javascript_include_tag "jquery.simplemodal.js" %>
+   <%= javascript_include_tag "moment.js" %>
+   <%= javascript_include_tag "fullcalendar.min.js" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= yield %>
+
+</body>
+</html>

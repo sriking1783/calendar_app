@@ -1,0 +1,25 @@
+<%= form_for(@calendar_setting) do |f| %>
+  <% if @calendar_setting.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@calendar_setting.errors.count, "error") %> prohibited this calendar_setting from being saved:</h2>
+
+      <ul>
+      <% @calendar_setting.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :default_view %><br>
+    <%= f.text_field :default_view %>
+  </div>
+  <div class="field">
+    <%= f.label :popup_time %><br>
+    <%= f.number_field :popup_time %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

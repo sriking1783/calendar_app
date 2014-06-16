@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Default view:</strong>
+  <%= @calendar_setting.default_view %>
+</p>
+
+<p>
+  <strong>Popup time:</strong>
+  <%= @calendar_setting.popup_time %>
+</p>
+
+<%= link_to 'Edit', edit_calendar_setting_path(@calendar_setting) %> |
+<%= link_to 'Back', calendar_settings_path %>
