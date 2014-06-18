@@ -1,22 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script type="text/javascript">
-  if(!window.jQuery)
-  {
-     var script = document.createElement("script");
-     script.type = "text/javascript";
-     script.async = false; // CHANGES
-     script.src = "//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js";
-     var oScripts = document.getElementsByTagName("script");
-     var s = oScripts[0];
-     s.parentNode.insertBefore(script, s);
-  }
-</script>
+
+  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
   <title>Events</title>
    <%= javascript_include_tag "jquery.js" %>
    <%= stylesheet_link_tag    "application", :media => "all" %>
-   <%= javascript_include_tag "jquery.simplemodal.js" %>
+   <%= javascript_include_tag "datepicker.js" %>
+   <%= javascript_include_tag "jquery.simplemodal-1.4.4.js" %>
    <%= javascript_include_tag "moment.js" %>
    <%= javascript_include_tag "fullcalendar.min.js" %>
   <%= csrf_meta_tags %>
@@ -27,3 +21,4 @@
 
 </body>
 </html>
+<script type="text/javascript"></script>

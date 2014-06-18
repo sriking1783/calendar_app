@@ -1,6 +1,5 @@
 <h1>Calendar#index</h1>
 <div id='calendar' style='margin:3em 0;font-size:13px'></div>
-<p>Find me in app/views/calendar/index.html.erb</p>
 
 <script type="text/javascript">
 
@@ -27,10 +26,26 @@ setInterval(
 
               });
      },
-     60000  /* 10000 ms = 10 sec */
+     600000  /* 10000 ms = 10 sec */
 );
 
 function getTime(unix_timestamp)
+{
+   var a = new Date(unix_timestamp);
+     var hour = a.getHours();
+     var min = a.getMinutes();
+     var sec = a.getSeconds();
+
+     if(hour < 10){
+      hour = '0'+hour
+     }
+     if(min < 10){
+      min = '0'+min
+     }
+     var time = hour+':'+min ;
+     return time;
+}
+function getDateTime(unix_timestamp)
 {
      var a = new Date(unix_timestamp);
      var year = a.getFullYear();
@@ -68,8 +83,6 @@ $(document).ready(function() {
 
     var calendar = $('#calendar').fullCalendar({
       eventSources: [
-
-        // your event source
         {
             url: '/event/',
             type: 'GET',
@@ -80,9 +93,6 @@ $(document).ready(function() {
             backgroundColor : "#1FCB4A",
             textColor: 'black' // a non-ajax option
         }
-
-        // any other sources...
-
     ],
       header: {
         left: 'prev,next today',
@@ -100,26 +110,35 @@ $(document).ready(function() {
 
         select: function(start, end, allDay)
         {
-          /*
-            after selection user will be promted for enter title for event.
-          */
-          var title = prompt('Event Title:');
-          /*
-            if title is enterd calendar will add title and event into fullCalendar.
-          */
-          if (title)
-          {
+          var title;
+          //var title = prompt('Event Title:');
+          $('#dialog-form').modal();
+          start_date = getDateTime(start+18000000).split(" ")[0];
+          start_time = getDateTime(start+18000000).split(" ")[1];
+          end_date = getDateTime(end+18000000).split(" ")[0];
+          end_time = getDateTime(end+18000000).split(" ")[1];
+          $("#start_only_date").val(start_date);
+          $('#start_time').val(start_time);
+          $("#end_only_date").val(end_date);
+          $('#end_time').val(end_time);
+
+          $('#create_event').click(function(){
+
+            title = $('#event_title').val();
+            start = $("#start_only_date").val()+" "+$('#start_time').val();
+            end = $("#end_only_date").val()+" "+$('#end_time').val();
+            $.modal.close();
             calendar.fullCalendar('renderEvent',
               {
-                title: title,
+                title: $('#event_title').val(),
                 start: start,
                 end: end
               },
               true // make the event "stick"
             );
             var offset = new Date().getTimezoneOffset();
-            var start_date = getTime(start+18000000)
-            var end_date = getTime(end+18000000)
+            var start_date = start;
+            var end_date = end;
             dataList = "event_name="+title+"&start_date='"+start_date+"'&end_date='"+end_date
             var indexes = ""
             var values = ""
@@ -147,7 +166,8 @@ $(document).ready(function() {
                           }
 
               });
-          }
+
+          });
           calendar.fullCalendar('unselect');
         },
         buttonText: {
@@ -163,5 +183,16 @@ $(document).ready(function() {
 
   });
 </script>
+
+<div id="dialog-form" title="Create Event" style="display: none;">
+  <input type=text id=event_title  size="30"></input><br/><br/>
+  <input type=text id=start_only_date maxlength="10" size="10"></input>
+  <input type=text id=start_time maxlength="4" size="4"></input>
+  <input type=text id=end_only_date maxlength="10" size="10"></input>
+  <input type=text id=end_time maxlength="4" size="4"></input>
+  <br/><br/>
+  <input type=button id="create_event" value="create"></input>
+
+</div>
 
 
