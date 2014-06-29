@@ -11,13 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140620033942) do
+ActiveRecord::Schema.define(version: 20140629192649) do
 
   create_table "calendar_settings", force: true do |t|
     t.string   "default_view"
     t.integer  "popup_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "calendars", force: true do |t|
   end
 
   create_table "table_events", force: true do |t|

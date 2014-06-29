@@ -105,23 +105,31 @@ $(document).ready(function() {
           end_date = getDateTime(end+18000000).split(" ")[0];
           end_time = getDateTime(end+18000000).split(" ")[1];
           repeat_event = "";
+          event_end = "";
           $("#start_only_date").val(start_date);
           $('#start_time').val(start_time);
           $("#end_only_date").val(end_date);
           $('#end_time').val(end_time);
           $('#repeat_event').prop('checked', false);
+          $('#repeat_timing option[value="none"]').attr("selected","selected");
           $('#repeat_event').click(function(){
               if(this.checked==true)
               {
                 $('#edit_event').show();
                 $("#repeat_timing").change(function(){
                   repeat_event = this.value;
+
                 });
               }
-              else
+              else{
+                  repeat_event = ""
                 $('#edit_event').hide();
+              }
           });
-
+          $("#event_end").change(function(){
+            event_end = $(this).val();
+          });
+          //$("#event_end").val('');
           $('#create_event').click(function(){
 
             title = $('#event_title').val();
@@ -139,7 +147,8 @@ $(document).ready(function() {
             var offset = new Date().getTimezoneOffset();
             var start_date = start;
             var end_date = end;
-            dataList = "event_name="+title+"&start_date='"+start_date+"'&end_date='"+end_date+"&repeat_event="+repeat_event+"&event_end='"+$("#event_end").val()+"'";
+            dataList = "event_name="+title+"&start_date='"+start_date+"'&end_date='"+end_date+"'&repeat_event="+repeat_event+"&event_end='"+event_end+"'";
+            alert(dataList);
             var indexes = ""
             var values = ""
             jQuery.each( allDay, function( i, val ) {
@@ -154,6 +163,7 @@ $(document).ready(function() {
                 data:dataList,
                 datatype:"json",
                 success: function(data){
+
                   alert(data.operation);
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -194,7 +204,7 @@ $(document).ready(function() {
   <input type="checkbox" id="repeat_event" false>Repeat
   <div id="edit_event" style="display: none;">
     Repeats: <select id="repeat_timing">
-              <option value="None">-- Select --</option>
+              <option value="none">-- Select --</option>
               <option value="daily">Daily</option>
               <option value="weekly">Weekly</option>
               <option value="monthly">Monthly</option>
