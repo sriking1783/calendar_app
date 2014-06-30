@@ -1,4 +1,10 @@
 <h1>Calendar#index</h1>
+<div id='multi_calendar'>
+  <select id="calendars">
+              <option value="none">-- Select --</option>
+  </select>
+
+</div>
 <div id='calendar' style='margin:3em 0;font-size:13px'></div>
 
 <script type="text/javascript">
@@ -55,6 +61,37 @@ function getDateTime(unix_timestamp)
 
 }
 $(document).ready(function() {
+  $.ajax({
+                type: "GET",
+                url: "/calendar_settings",
+                datatype:"json",
+                success: function(data){
+
+                  jQuery.each( data, function( i, val) {
+                    $('#calendars').append('<option value="'+data[i]["calendar_id"]+'" >'+data[i]["calendar_name"]+'</option>');
+                    });
+
+                }
+      });
+
+var dataCal = "";
+var selected_cal = ""
+$('#calendars').change(function(){
+ $.ajax({
+                type: "POST",
+                url: "/event/create_session",
+                data: "calendar_id="+$('#calendars').val(),
+                datatype:"json",
+                success: function(data){
+                  dataCal = "cal_id="+$('#calendars').val();
+                  location.reload();
+                }
+      });
+
+  $("#calendars option[value='"+$('#calendars').val()+"']").attr('selected','selected');
+});
+
+
 
      var today = new Date();
      var yyyy = today.getFullYear();
@@ -67,6 +104,7 @@ $(document).ready(function() {
       dd = '0'+dd
      }
      today_date = yyyy+'-'+mm+'-'+dd
+
 
     var calendar = $('#calendar').fullCalendar({
       eventSources: [
@@ -148,7 +186,6 @@ $(document).ready(function() {
             var start_date = start;
             var end_date = end;
             dataList = "event_name="+title+"&start_date='"+start_date+"'&end_date='"+end_date+"'&repeat_event="+repeat_event+"&event_end='"+event_end+"'";
-            alert(dataList);
             var indexes = ""
             var values = ""
             jQuery.each( allDay, function( i, val ) {

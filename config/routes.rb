@@ -4,12 +4,14 @@ Events::Application.routes.draw do
     put 'event' => :update
     get 'event' => :index
     get "event/next_event" => :next_event
+    post "event/create_session" => :create_session
     delete 'event' => :delete
   end
   resources :calendar_settings
 
   get "calendar/index"
   get "calendar/show"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

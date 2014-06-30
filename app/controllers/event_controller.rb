@@ -4,14 +4,14 @@ class EventController < ApplicationController
 
   def create
 
-    @events = TableEvent.select('event_name as title,start_time as start,end_time as end,repeat,until')
+    @events = TableEvent.select('event_name as title,start_time as start,end_time as end,repeat,until').where('calendar_id=?',session[:calendar_id])
     event = {:event_name => params[:event_name],
                        :start_time => params[:start_date],
                        :end_time => params[:end_date],
                        :repeat => params[:repeat_event],
-                       :until => params[:event_end]
+                       :until => params[:event_end],
+                       :calendar_id => session[:calendar_id]
             }
-     puts "#{event.inspect} ---- INSPECT"
     if GenerateEvents::is_overlapping?(event,@events)
       respond_to do |format|
         format.json {render json: {:operation => "unsuccessful"}}
@@ -24,12 +24,17 @@ class EventController < ApplicationController
     end
   end
 
+  def create_session
+    session[:calendar_id] = nil
+    session[:calendar_id] = params[:calendar_id]
+    respond_to do |format|
+      format.json {render json: {:operation => "successful"}}
+    end
+  end
+
   def index
-    @events = TableEvent.select('event_name as title,start_time as start,end_time as end,repeat,until')
-    puts @events.class.to_s
+    @events = TableEvent.select('event_name as title,start_time as start,end_time as end,repeat,until').where('calendar_id=?',session[:calendar_id])
     @exact_events = GenerateEvents::get_all_events(@events)
-    puts "hhhhh!!!"+@exact_events.class.to_s
-    puts @exact_events.inspect
     respond_to do |format|
       format.json {render json: @exact_events.to_json}
     end

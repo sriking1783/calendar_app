@@ -4,7 +4,8 @@ class CalendarSettingsController < ApplicationController
   # GET /calendar_settings
   # GET /calendar_settings.json
   def index
-    @calendar_settings = CalendarSetting.all
+    @calendars = Calendar.select('id as calendar_id,name as calendar_name')
+    render json: @calendars
   end
 
   # GET /calendar_settings/1
@@ -20,6 +21,8 @@ class CalendarSettingsController < ApplicationController
   # GET /calendar_settings/1/edit
   def edit
   end
+
+
 
   # POST /calendar_settings
   # POST /calendar_settings.json

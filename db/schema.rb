@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140629192649) do
+ActiveRecord::Schema.define(version: 20140629194511) do
 
   create_table "calendar_settings", force: true do |t|
     t.string   "default_view"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20140629192649) do
   end
 
   create_table "calendars", force: true do |t|
+    t.string "name"
   end
 
   create_table "table_events", force: true do |t|
@@ -31,6 +32,7 @@ ActiveRecord::Schema.define(version: 20140629192649) do
     t.datetime "updated_at"
     t.string   "repeat"
     t.datetime "until"
+    t.integer  "calendar_id"
   end
 
 end
